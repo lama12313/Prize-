@@ -14,6 +14,9 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
         }
+        .scratch-card-container {
+            text-align: center;
+        }
         .scratch-card {
             width: 300px;
             height: 200px;
@@ -26,6 +29,7 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             cursor: pointer;
+            margin-top: 20px;
         }
         canvas {
             width: 100%;
@@ -34,6 +38,12 @@
             top: 0;
             left: 0;
             z-index: 2;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
         }
         .prize {
             font-size: 24px;
@@ -44,6 +54,7 @@
             opacity: 0;
             transition: opacity 1s ease-in-out;
             z-index: 1;
+            direction: rtl; /* Right to Left for Arabic */
         }
         .revealed canvas {
             pointer-events: none;
@@ -54,9 +65,12 @@
     </style>
 </head>
 <body>
-    <div class="scratch-card" id="scratch-card">
-        <canvas id="scratch-canvas"></canvas>
-        <div class="prize">🎉 Congratulations! You Won a Prize! 🏆</div>
+    <div class="scratch-card-container">
+        <div class="title">Scratch to see your prize!!</div>
+        <div class="scratch-card" id="scratch-card">
+            <canvas id="scratch-canvas"></canvas>
+            <div class="prize">قهوتكم وحلاكم علينا لباقي أيام الإجازة</div>
+        </div>
     </div>
 
     <script>
