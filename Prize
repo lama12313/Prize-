@@ -87,15 +87,9 @@
         scratchCanvas.width = canvasWidth;
         scratchCanvas.height = canvasHeight;
 
-        // Draw a "scratchable" layer
+        // Draw a "scratchable" layer (no text on the grey area)
         ctx.fillStyle = "#34495e";  // Gray color for the scratch cover
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-        ctx.fillStyle = "#fff";
-        ctx.font = "24px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("Scratch to Reveal Your Prize!", canvasWidth / 2, canvasHeight / 2);
 
         // Function to scratch based on mouse or touch position
         function scratchEffect(e) {
