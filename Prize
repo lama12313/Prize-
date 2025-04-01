@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scratch Card Reveal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet"> <!-- Arabic font -->
     <style>
         body {
             display: flex;
@@ -47,23 +46,12 @@
             margin-bottom: 10px;
         }
         .prize {
-            font-size: 24px;
-            color: #fff;
-            font-weight: bold;
-            text-align: center;
             position: absolute;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
             z-index: 1;
-            direction: rtl; /* Right to Left for Arabic */
-            unicode-bidi: bidi-override; /* Ensure correct rendering of Arabic */
-            font-family: 'Amiri', serif; /* Use Amiri for Arabic */
-        }
-        .revealed canvas {
-            pointer-events: none;
+            display: none; /* Initially hidden */
         }
         .revealed .prize {
-            opacity: 1;
+            display: block; /* Show when scratched */
         }
     </style>
 </head>
@@ -72,14 +60,14 @@
         <div class="title">Scratch to see your prize!!</div>
         <div class="scratch-card" id="scratch-card">
             <canvas id="scratch-canvas"></canvas>
-            <div class="prize">قهوتكم وحلاكم علينا لباقي أيام الإجازة</div>
+            <img src="YOUR_IMAGE_URL_HERE" class="prize" width="250" height="150" alt="Prize">
         </div>
     </div>
 
     <script>
         const scratchCard = document.getElementById('scratch-card');
         const scratchCanvas = document.getElementById('scratch-canvas');
-        const prize = scratchCard.querySelector('.prize');
+        const prizeImage = scratchCard.querySelector('.prize');
         const ctx = scratchCanvas.getContext('2d');
 
         let isScratched = false;
@@ -90,34 +78,34 @@
         scratchCanvas.width = canvasWidth;
         scratchCanvas.height = canvasHeight;
 
-        // Draw a "scratchable" layer (no text on the grey area)
-        ctx.fillStyle = "#34495e";  // Gray color for the scratch cover
+        // Draw scratch layer
+        ctx.fillStyle = "#34495e";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        // Function to scratch based on mouse or touch position
+        // Scratch function
         function scratchEffect(e) {
             if (isScratched) return;
 
             let mouseX, mouseY;
-            if (e.touches) {  // Handle touch events (mobile)
-                e.preventDefault();  // Prevent default scroll behavior on mobile
+            if (e.touches) {
+                e.preventDefault();
                 mouseX = e.touches[0].clientX - scratchCard.offsetLeft;
                 mouseY = e.touches[0].clientY - scratchCard.offsetTop;
-            } else {  // Handle mouse events (desktop)
+            } else {
                 mouseX = e.clientX - scratchCard.offsetLeft;
                 mouseY = e.clientY - scratchCard.offsetTop;
             }
 
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= canvasWidth && mouseY <= canvasHeight) {
-                ctx.clearRect(mouseX - 20, mouseY - 20, 40, 40);  // Clear the scratch area
+                ctx.clearRect(mouseX - 20, mouseY - 20, 40, 40);
             }
         }
 
-        // Add event listeners for both touch and mouse events
+        // Add event listeners
         scratchCard.addEventListener('mousemove', scratchEffect);
         scratchCard.addEventListener('touchmove', scratchEffect, { passive: false });
 
-        // Handle click/tap to reveal prize
+        // Show prize when fully scratched
         scratchCard.addEventListener('click', function() {
             if (!isScratched) {
                 scratchCard.classList.add('revealed');
