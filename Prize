@@ -46,12 +46,20 @@
             margin-bottom: 10px;
         }
         .prize {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
             position: absolute;
+            text-align: center;
+            width: 90%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
             z-index: 1;
-            display: none; /* Initially hidden */
+            direction: rtl; /* Arabic text from right to left */
+            font-family: 'Arial', sans-serif;
         }
         .revealed .prize {
-            display: block; /* Show when scratched */
+            opacity: 1;
         }
     </style>
 </head>
@@ -60,14 +68,14 @@
         <div class="title">Scratch to see your prize!!</div>
         <div class="scratch-card" id="scratch-card">
             <canvas id="scratch-canvas"></canvas>
-            <img src="YOUR_IMAGE_URL_HERE" class="prize" width="250" height="150" alt="Prize">
+            <div class="prize">قهوتكم وحلاكم علينا لباقي أيام الإجازة</div>
         </div>
     </div>
 
     <script>
         const scratchCard = document.getElementById('scratch-card');
         const scratchCanvas = document.getElementById('scratch-canvas');
-        const prizeImage = scratchCard.querySelector('.prize');
+        const prizeText = scratchCard.querySelector('.prize');
         const ctx = scratchCanvas.getContext('2d');
 
         let isScratched = false;
@@ -79,16 +87,16 @@
         scratchCanvas.height = canvasHeight;
 
         // Draw scratch layer
-        ctx.fillStyle = "#34495e";
+        ctx.fillStyle = "#34495e";  // Grey scratch cover
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        // Scratch function
+        // Scratch effect
         function scratchEffect(e) {
             if (isScratched) return;
 
             let mouseX, mouseY;
             if (e.touches) {
-                e.preventDefault();
+                e.preventDefault();  // Prevent screen scrolling
                 mouseX = e.touches[0].clientX - scratchCard.offsetLeft;
                 mouseY = e.touches[0].clientY - scratchCard.offsetTop;
             } else {
@@ -105,7 +113,7 @@
         scratchCard.addEventListener('mousemove', scratchEffect);
         scratchCard.addEventListener('touchmove', scratchEffect, { passive: false });
 
-        // Show prize when fully scratched
+        // Show the prize text when scratching is done
         scratchCard.addEventListener('click', function() {
             if (!isScratched) {
                 scratchCard.classList.add('revealed');
