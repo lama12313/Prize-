@@ -3,33 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scratch Card Reveal</title>
+    <title>بطاقة الجائزة</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #f8c291, #e55039);
+            background: linear-gradient(135deg, #f7e7ce, #d4af37); /* Classic Gold & Cream */
             font-family: 'Arial', sans-serif;
             margin: 0;
+            overflow: hidden;
         }
         .scratch-card-container {
             text-align: center;
         }
+        .title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #5a4a42; /* Elegant Dark Brown */
+            margin-bottom: 15px;
+        }
         .scratch-card {
-            width: 300px;
+            width: 320px;
             height: 200px;
-            background: #bdc3c7;
+            background: #b5a58d; /* Classic Tan */
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             cursor: pointer;
-            margin-top: 20px;
         }
         canvas {
             width: 100%;
@@ -39,32 +45,41 @@
             left: 0;
             z-index: 2;
         }
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 10px;
-        }
         .prize {
             font-size: 22px;
             font-weight: bold;
-            color: #333;
+            color: #4a3b30; /* Deep Brown */
             position: absolute;
             text-align: center;
             width: 90%;
-            opacity: 1; /* Always visible */
             z-index: 1;
             direction: rtl;
             font-family: 'Arial', sans-serif;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: gold;
+            opacity: 0.8;
+            position: absolute;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-10vh) rotate(0deg); }
+            to { transform: translateY(100vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="scratch-card-container">
-        <div class="title">Scratch to see your prize!!</div>
+        <div class="title">امسح لترى جائزتك!!</div>
         <div class="scratch-card" id="scratch-card">
             <canvas id="scratch-canvas"></canvas>
-            <div class="prize">قهوتكم وحلاكم علينا لباقي أيام الإجازة</div>
+            <div class="prize">قهوتكم وحلاكم علينا لباقي أيام الإجازة ☕️🍰</div>
         </div>
     </div>
 
@@ -73,7 +88,6 @@
         const scratchCanvas = document.getElementById('scratch-canvas');
         const ctx = scratchCanvas.getContext('2d');
 
-        let isScratched = false;
         const canvasWidth = scratchCard.offsetWidth;
         const canvasHeight = scratchCard.offsetHeight;
 
@@ -81,12 +95,10 @@
         scratchCanvas.height = canvasHeight;
 
         // Draw scratch layer
-        ctx.fillStyle = "#34495e";  // Grey scratch cover
+        ctx.fillStyle = "#665e57";  // Scratch Cover - Dark Brown
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
         function scratchEffect(e) {
-            if (isScratched) return;
-
             let mouseX, mouseY;
             if (e.touches) {
                 e.preventDefault();
@@ -107,6 +119,22 @@
 
         scratchCard.addEventListener('mousemove', scratchEffect);
         scratchCard.addEventListener('touchmove', scratchEffect, { passive: false });
+
+        // Confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                document.body.appendChild(confetti);
+
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.backgroundColor = Math.random() < 0.5 ? "#FFD700" : "#E6BE8A"; // Gold & Bronze
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confetti.style.animationDelay = `${Math.random()}s`;
+            }
+        }
+
+        createConfetti();
     </script>
 </body>
 </html>
