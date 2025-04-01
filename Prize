@@ -83,21 +83,29 @@
         ctx.textBaseline = "middle";
         ctx.fillText("Scratch to Reveal Your Prize!", canvasWidth / 2, canvasHeight / 2);
 
-        // Scratch effect
+        // Function to scratch based on mouse or touch position
         function scratchEffect(e) {
             if (isScratched) return;
 
-            const rect = scratchCard.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
+            let mouseX, mouseY;
+            if (e.touches) {  // Handle touch events (mobile)
+                mouseX = e.touches[0].clientX - scratchCard.offsetLeft;
+                mouseY = e.touches[0].clientY - scratchCard.offsetTop;
+            } else {  // Handle mouse events (desktop)
+                mouseX = e.clientX - scratchCard.offsetLeft;
+                mouseY = e.clientY - scratchCard.offsetTop;
+            }
 
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= canvasWidth && mouseY <= canvasHeight) {
                 ctx.clearRect(mouseX - 20, mouseY - 20, 40, 40);  // Clear the scratch area
             }
         }
 
-        // Event listeners
+        // Add event listeners for both touch and mouse events
         scratchCard.addEventListener('mousemove', scratchEffect);
+        scratchCard.addEventListener('touchmove', scratchEffect, { passive: false });
+
+        // Handle click/tap to reveal prize
         scratchCard.addEventListener('click', function() {
             if (!isScratched) {
                 scratchCard.classList.add('revealed');
