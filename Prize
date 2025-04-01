@@ -52,14 +52,10 @@
             position: absolute;
             text-align: center;
             width: 90%;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            opacity: 1; /* Always visible */
             z-index: 1;
-            direction: rtl; /* Arabic text from right to left */
+            direction: rtl;
             font-family: 'Arial', sans-serif;
-        }
-        .revealed .prize {
-            opacity: 1;
         }
     </style>
 </head>
@@ -75,14 +71,12 @@
     <script>
         const scratchCard = document.getElementById('scratch-card');
         const scratchCanvas = document.getElementById('scratch-canvas');
-        const prizeText = scratchCard.querySelector('.prize');
         const ctx = scratchCanvas.getContext('2d');
 
         let isScratched = false;
         const canvasWidth = scratchCard.offsetWidth;
         const canvasHeight = scratchCard.offsetHeight;
 
-        // Set canvas dimensions
         scratchCanvas.width = canvasWidth;
         scratchCanvas.height = canvasHeight;
 
@@ -90,13 +84,12 @@
         ctx.fillStyle = "#34495e";  // Grey scratch cover
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        // Scratch effect
         function scratchEffect(e) {
             if (isScratched) return;
 
             let mouseX, mouseY;
             if (e.touches) {
-                e.preventDefault();  // Prevent screen scrolling
+                e.preventDefault();
                 mouseX = e.touches[0].clientX - scratchCard.offsetLeft;
                 mouseY = e.touches[0].clientY - scratchCard.offsetTop;
             } else {
@@ -105,21 +98,15 @@
             }
 
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= canvasWidth && mouseY <= canvasHeight) {
-                ctx.clearRect(mouseX - 20, mouseY - 20, 40, 40);
+                ctx.globalCompositeOperation = "destination-out";
+                ctx.beginPath();
+                ctx.arc(mouseX, mouseY, 20, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
-        // Add event listeners
         scratchCard.addEventListener('mousemove', scratchEffect);
         scratchCard.addEventListener('touchmove', scratchEffect, { passive: false });
-
-        // Show the prize text when scratching is done
-        scratchCard.addEventListener('click', function() {
-            if (!isScratched) {
-                scratchCard.classList.add('revealed');
-                isScratched = true;
-            }
-        });
     </script>
 </body>
 </html>
