@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,6 +55,7 @@
             transition: opacity 1s ease-in-out;
             z-index: 1;
             direction: rtl; /* Right to Left for Arabic */
+            font-family: 'Arial', sans-serif; /* Ensure Arabic font support */
         }
         .revealed canvas {
             pointer-events: none;
