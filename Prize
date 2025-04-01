@@ -10,30 +10,31 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #f7e7ce, #d4af37); /* Classic Gold & Cream */
+            background: white;
             font-family: 'Arial', sans-serif;
             margin: 0;
             overflow: hidden;
         }
         .scratch-card-container {
             text-align: center;
+            position: relative;
         }
         .title {
             font-size: 26px;
             font-weight: bold;
-            color: #5a4a42; /* Elegant Dark Brown */
+            color: #444;
             margin-bottom: 15px;
         }
         .scratch-card {
             width: 320px;
             height: 200px;
-            background: #b5a58d; /* Classic Tan */
+            background: #ddd;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             cursor: pointer;
         }
@@ -48,7 +49,7 @@
         .prize {
             font-size: 22px;
             font-weight: bold;
-            color: #4a3b30; /* Deep Brown */
+            color: #222;
             position: absolute;
             text-align: center;
             width: 90%;
@@ -62,21 +63,22 @@
             position: fixed;
             width: 10px;
             height: 10px;
-            background-color: gold;
-            opacity: 0.8;
+            background-color: red;
+            opacity: 0.9;
             position: absolute;
+            top: -10vh; /* Start from above */
             animation: fall linear infinite;
         }
 
         @keyframes fall {
-            from { transform: translateY(-10vh) rotate(0deg); }
-            to { transform: translateY(100vh) rotate(360deg); }
+            from { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
     <div class="scratch-card-container">
-        <div class="title">امسح لترى جائزتك!!</div>
+        <div class="title">امسح لترى الجائزة</div>
         <div class="scratch-card" id="scratch-card">
             <canvas id="scratch-canvas"></canvas>
             <div class="prize">قهوتكم وحلاكم علينا لباقي أيام الإجازة ☕️🍰</div>
@@ -95,7 +97,7 @@
         scratchCanvas.height = canvasHeight;
 
         // Draw scratch layer
-        ctx.fillStyle = "#665e57";  // Scratch Cover - Dark Brown
+        ctx.fillStyle = "#888"; // Scratch Cover - Grey
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
         function scratchEffect(e) {
@@ -128,7 +130,7 @@
                 document.body.appendChild(confetti);
 
                 confetti.style.left = `${Math.random() * 100}vw`;
-                confetti.style.backgroundColor = Math.random() < 0.5 ? "#FFD700" : "#E6BE8A"; // Gold & Bronze
+                confetti.style.backgroundColor = ["red", "blue", "yellow", "green", "purple", "orange", "pink"][Math.floor(Math.random() * 7)];
                 confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
                 confetti.style.animationDelay = `${Math.random()}s`;
             }
