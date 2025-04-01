@@ -89,6 +89,7 @@
 
             let mouseX, mouseY;
             if (e.touches) {  // Handle touch events (mobile)
+                e.preventDefault();  // Prevent default scroll behavior on mobile
                 mouseX = e.touches[0].clientX - scratchCard.offsetLeft;
                 mouseY = e.touches[0].clientY - scratchCard.offsetTop;
             } else {  // Handle mouse events (desktop)
